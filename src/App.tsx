@@ -1,43 +1,50 @@
+// App.js o App.jsx
+
 import React from 'react';
-import { ChakraProvider, Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AnimalesPage from './pages/AnimalesPage';
 import CultivosPage from './pages/CultivosPage';
 import TareasPage from './pages/TareasPage';
-import { Footer } from './components/common/Footer'; // Asegúrate de importar Footer
-import MenuSidebar from './components/common/MenuSidebar';
+import Login from './components/Form/Login';
+import { AuthProvider } from './AuthProvider';
+import ProtectedRoute from './ProtectedRoute';
+import Layout from './components/Layout'; // Importa el nuevo componente de layout
+import './firebaseConfig'
 
 function App() {
- const bgColor = useColorModeValue('gray.100', 'gray.900');
   return (
     <ChakraProvider>
-      <Router>
-        <Grid
-          templateAreas={`"sidebar main"
-                          "footer footer"`}
-          gridTemplateRows={'1fr auto'} // Auto ajusta el tamaño de la fila del footer según su contenido
-          gridTemplateColumns={'250px 1fr'}
-          h="100vh"
-          minHeight="100vh"
-        >
-          <GridItem area="sidebar" bg={bgColor}>
-            <MenuSidebar />
-          </GridItem>
-          <GridItem area="main">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/animales" element={<AnimalesPage />} />
-              <Route path="/cultivos" element={<CultivosPage />} />
-              <Route path="/tareas" element={<TareasPage />} />
-              {/* Añade más rutas según sea necesario */}
-            </Routes>
-          </GridItem>
-          <GridItem area="footer" w="full">
-            <Footer />
-          </GridItem>
-        </Grid>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routes>
+              <Route path="/" element={<Navigate replace to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/homepage" element={
+              <ProtectedRoute>
+                <Layout><HomePage /></Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/animales" element={
+              <ProtectedRoute>
+                <Layout><AnimalesPage /></Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/cultivos" element={
+              <ProtectedRoute>
+                <Layout><CultivosPage /></Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/tareas" element={
+              <ProtectedRoute>
+                <Layout><TareasPage /></Layout>
+              </ProtectedRoute>
+            } />
+            {/* Añade más rutas protegidas como sea necesario */}
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ChakraProvider>
   );
 }
