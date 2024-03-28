@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, Flex } from '@chakra-ui/react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AnimalesPage from './pages/AnimalesPage';
+import CultivosPage from './pages/CultivosPage';
+import TareasPage from './pages/TareasPage';
+import MenuSidebar from './components/common/MenuSidebar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Router>
+        <Flex>
+          <MenuSidebar />
+          <Flex bg={'gray.200'} w={'100vw'} h={'100vh'}  as="main" p={1}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/animales" element={<AnimalesPage />} />
+              <Route path="/cultivos" element={<CultivosPage />} />
+              <Route path="/tareas" element={<TareasPage />} />
+              {/* Añade más rutas según sea necesario */}
+            </Routes>
+          </Flex>
+        </Flex>
+      </Router>
+    </ChakraProvider>
   );
 }
 
