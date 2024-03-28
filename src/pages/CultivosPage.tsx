@@ -4,10 +4,13 @@ import { Header } from '../components/common/Header';
 
 const CultivosPage = () => {
   return (
-  <Box>
-    <Header />
-    <Text fontSize="2xl">Página de Cultivos</Text>
-      {/* Contenido específico de la página aquí */}
+    <Box>
+      <Header />
+      <Box as="main" p={4} bg={'white'}>
+        <Text fontSize="xl">Bienvenido a la plataforma de Administración del Campo</Text>
+        <Text>Esta plataforma tinee como motivo de construccion simplificarnos la vida y mantener el orden en la asociacion.</Text>
+        {/* Contenido adicional aquí */}
+      </Box>
     </Box>
   );
 };
